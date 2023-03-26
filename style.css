@@ -1,5 +1,4 @@
 * {
-  color: #fafaf9;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -7,6 +6,16 @@
 
 .header {
   margin-bottom: 40px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 h1 {
@@ -15,6 +24,8 @@ h1 {
   text-align: center;
   font-family: "Coiny", sans-serif;
   color: #fafaf9;
+  line-height: 1;
+  margin-top: 6px;
 }
 
 body {
@@ -26,6 +37,7 @@ body {
   background-color: #44403c;
   padding: 16px 40px;
   text-align: center;
+  color: #fafaf9;
 }
 
 .fact {

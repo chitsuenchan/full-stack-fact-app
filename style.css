@@ -18,6 +18,10 @@
   gap: 16px;
 }
 
+.logo img {
+  width: 68px;
+}
+
 h1 {
   font-size: 42px;
   text-transform: uppercase;
@@ -30,14 +34,26 @@ h1 {
 
 body {
   background-color: #292524;
-  padding: 40px;
+  padding: 48px 60px;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
 }
 
 .fact-form {
   background-color: #44403c;
   padding: 16px 40px;
+  margin-bottom: 40px;
   text-align: center;
   color: #fafaf9;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 40px;
 }
 
 .fact {
@@ -48,6 +64,24 @@ body {
   background-color: #44403c;
   margin-bottom: 16px;
   padding: 16px 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.source:link,
+.source:visited {
+  color: #a8a29e;
+  text-decoration: none;
+  margin-left: 12px;
+  transition: 0.3s;
+}
+
+.source:hover,
+.source:active {
+  color: #3b82f6;
 }
 
 .tag {
@@ -58,6 +92,11 @@ body {
   padding-top: 3px;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.vpte-buttons {
+  background-color: purple;
+  margin-left: auto;
 }
 
 ul {

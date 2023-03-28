@@ -37,6 +37,10 @@ body {
   padding: 48px 60px;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .container {
   max-width: 1300px;
   margin: 0 auto;

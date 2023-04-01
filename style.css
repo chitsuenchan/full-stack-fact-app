@@ -80,7 +80,6 @@ body {
 
 @media (max-width: 1200px) {
   .fact {
-    background-color: red;
     flex-direction: column;
     align-items: flex-end;
     gap: 12px;

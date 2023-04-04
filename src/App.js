@@ -1,4 +1,5 @@
 import "./style.css";
+import { useState } from "react";
 
 const initialFacts = [
   {
@@ -38,24 +39,54 @@ const initialFacts = [
   },
 ];
 
+function Counter() {
+  const [count, setCount] = useState(8);
+
+  return (
+    <div>
+      <span style={{ fontSize: "40px" }}>{count}</span>
+      <button
+        className="btn btn-large"
+        onClick={() => setCount((count) => count + 1)}
+      >
+        +1
+      </button>
+    </div>
+  );
+}
+
 function App() {
+  const [showForm, setShowForm] = useState(false);
+
   return (
     <>
       {/* HEADER */}
-      <header className="header">
-        <div className="logo">
-          <img src="logo.png" alt="Today I Learned Logo" />
-          <h1>Today I Learned</h1>
-        </div>
-        <button className="btn btn-large btn-open">Share a fact</button>
-      </header>
+      <Header showForm={showForm} setShowForm={setShowForm} />
 
-      <NewFactForm />
+      {showForm ? <NewFactForm /> : null}
+
       <main className="main">
         <CategoryFilter />
         <FactList />
       </main>
     </>
+  );
+}
+
+function Header({ showForm, setShowForm }) {
+  return (
+    <header className="header">
+      <div className="logo">
+        <img src="logo.png" alt="Today I Learned Logo" />
+        <h1>Today I Learned</h1>
+      </div>
+      <button
+        className="btn btn-large btn-open"
+        onClick={() => setShowForm((show) => !show)}
+      >
+        {showForm ? "Close" : "Share a fact"}
+      </button>
+    </header>
   );
 }
 

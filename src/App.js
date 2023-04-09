@@ -1,5 +1,6 @@
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 
 const initialFacts = [
   {
@@ -57,14 +58,25 @@ function Counter() {
 
 function App() {
   const [showForm, setShowForm] = useState(false);
-  const [facts, setFacts] = useState(initialFacts);
+  const [facts, setFacts] = useState([]);
+
+  useEffect(function () {
+    async function getFacts() {
+      const { data: facts, error } = await supabase.from("facts").select("*");
+      setFacts(facts);
+    }
+
+    getFacts();
+  }, []);
 
   return (
     <>
       {/* HEADER */}
       <Header showForm={showForm} setShowForm={setShowForm} />
 
-      {showForm ? <NewFactForm setFacts={setFacts} /> : null}
+      {showForm ? (
+        <NewFactForm setFacts={setFacts} setShowForm={setShowForm} />
+      ) : null}
 
       <main className="main">
         <CategoryFilter />
@@ -112,7 +124,7 @@ function isValidHttpUrl(string) {
   return url.protocol === "http:" || url.protocol === "https:";
 }
 
-function NewFactForm({ facts, setFacts }) {
+function NewFactForm({ facts, setFacts, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("science");
@@ -123,10 +135,8 @@ function NewFactForm({ facts, setFacts }) {
     e.preventDefault();
 
     // 2. Check if the data is invalid. If so then create a new fact
-
     if (text && isValidHttpUrl(source) && category && textLength) {
       // 3. Create a new fact object
-
       const newFact = {
         id: Math.round(Math.random() * 10000),
         text,
@@ -143,10 +153,12 @@ function NewFactForm({ facts, setFacts }) {
     }
 
     // 5. Reset input fields
+    setText("");
+    setSource("");
+    setCategory("");
 
     // 6. Close the form
-
-    console.log(text, source, category);
+    setShowForm(false);
   }
 
   return (

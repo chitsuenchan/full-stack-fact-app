@@ -79,6 +79,12 @@ body {
   gap: 24px;
 }
 
+.disputed {
+  color: #ef4444;
+  font-weight: 600;
+  margin-right: 10px;
+}
+
 @media (max-width: 1200px) {
   .fact {
     flex-direction: column;

@@ -306,7 +306,7 @@ function Fact({ fact, setFacts }) {
     <li className="fact">
       <p>
         {fact.text}
-        <a className="source" href="https://opensource.fb.com/" target="_blank">
+        <a className="source" href={fact.source} target="_blank">
           (Source)
         </a>
       </p>

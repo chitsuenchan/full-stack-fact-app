@@ -150,37 +150,46 @@ function NewFactForm({ facts, setFacts, setShowForm }) {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("science");
+  const [isUploading, setIsUploading] = useState(false);
   const textLength = text.length;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // 1. Prevent the browser from reloading
     e.preventDefault();
 
     // 2. Check if the data is invalid. If so then create a new fact
     if (text && isValidHttpUrl(source) && category && textLength) {
       // 3. Create a new fact object
-      const newFact = {
-        id: Math.round(Math.random() * 10000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // const newFact = {
+      //   id: Math.round(Math.random() * 10000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+
+      // 3. Upload fact to Supabase and receive the new fact object
+      setIsUploading(true);
+      const { data: newFact, error } = await supabase
+        .from("facts")
+        .insert([{ text, source, category }])
+        .select();
+      setIsUploading(false);
 
       // 4. Add a new fact to the UI
-      setFacts((facts) => [newFact, ...facts]);
+      setFacts((facts) => [newFact[0], ...facts]);
+
+      // 5. Reset input fields
+      setText("");
+      setSource("");
+      setCategory("");
+
+      // 6. Close the form
+      setShowForm(false);
     }
-
-    // 5. Reset input fields
-    setText("");
-    setSource("");
-    setCategory("");
-
-    // 6. Close the form
-    setShowForm(false);
   }
 
   return (
@@ -190,6 +199,7 @@ function NewFactForm({ facts, setFacts, setShowForm }) {
         placeholder="Share a fact with the world..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={isUploading}
       />
       <span>{200 - textLength}</span>
       <input
@@ -197,8 +207,13 @@ function NewFactForm({ facts, setFacts, setShowForm }) {
         placeholder="Trustworthy source..."
         value={source}
         onChange={(e) => setSource(e.target.value)}
+        disabled={isUploading}
       />
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        disabled={isUploading}
+      >
         <option value="">Choose Category</option>
         {CATEGORIES.map((cat) => (
           <option key={cat.name} value={cat.name}>
@@ -206,7 +221,9 @@ function NewFactForm({ facts, setFacts, setShowForm }) {
           </option>
         ))}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 }
@@ -281,7 +298,7 @@ function Fact({ fact }) {
       </span>
       <div className="vote-buttons">
         <button>👍 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
+        <button>🤯 {fact.votesMindBlowing}</button>
         <button>⛔️ {fact.votesFalse}</button>
       </div>
     </li>

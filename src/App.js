@@ -284,10 +284,24 @@ function FactList({ facts, setFacts }) {
 
 function Fact({ fact, setFacts }) {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
+
   const isDisputed =
     fact.votesInteresting + fact.votesMindBlowing < fact.votesFalse;
 
+  useEffect(() => {
+    const hasVotedStored = localStorage.getItem(`fact_${fact.id}_hasVoted`);
+    if (hasVotedStored) {
+      setHasVoted(true);
+    }
+  }, [fact.id]);
+
   async function handleVote(columnName) {
+    if (hasVoted) {
+      //User has voted already so do nothing!
+      return;
+    }
+
     setIsUpdating(true);
     const { data: updatedFact, error } = await supabase
       .from("facts")
@@ -302,6 +316,9 @@ function Fact({ fact, setFacts }) {
       setFacts((facts) =>
         facts.map((f) => (f.id === fact.id ? updatedFact[0] : f))
       );
+    setHasVoted(true);
+    // Store the hasVoted state in localStorage
+    localStorage.setItem(`fact_${fact.id}_hasVoted`, true);
   }
 
   return (
@@ -325,17 +342,20 @@ function Fact({ fact, setFacts }) {
       <div className="vote-buttons">
         <button
           onClick={() => handleVote("votesInteresting")}
-          disabled={isUpdating}
+          disabled={isUpdating || hasVoted}
         >
           👍 {fact.votesInteresting}
         </button>
         <button
           onClick={() => handleVote("votesMindBlowing")}
-          disabled={isUpdating}
+          disabled={isUpdating || hasVoted}
         >
           🤯 {fact.votesMindBlowing}
         </button>
-        <button onClick={() => handleVote("votesFalse")} disabled={isUpdating}>
+        <button
+          onClick={() => handleVote("votesFalse")}
+          disabled={isUpdating || hasVoted}
+        >
           ⛔️ {fact.votesFalse}
         </button>
       </div>

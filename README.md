@@ -41,8 +41,6 @@ This is a personal learning project aimed to further knowledge of front-end deve
       <td>Notable Technology Utilized</td>
       <td>
           <ul>
-              <li>JavaScript, HTML and CSS Languages</li>
-              <li>React framework</li>
               <li>Responsive web layout</li>
               <li>POST API to share fact</li>
               <li>GET API and SQL to retrieve forum facts</li>

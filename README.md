@@ -37,6 +37,19 @@ This is a personal learning project aimed to further knowledge of front-end deve
       <td>Hosting</td>
       <td>Netlify (vendor solution for online web app hosting)</td>
     </tr>
+    <tr>
+      <td>Notable Technology Utilized</td>
+      <td>
+          <ul>
+              <li>JavaScript, HTML and CSS Languages</li>
+              <li>React framework</li>
+              <li>Responsive web layout</li>
+              <li>POST API to share fact</li>
+              <li>GET API and SQL to retrieve forum facts</li>
+              <li>Layout desinging, use states and onclicklisteners</li>     
+          </ul>
+      </td>
+    </tr>
   </tbody>
 </table>
 
